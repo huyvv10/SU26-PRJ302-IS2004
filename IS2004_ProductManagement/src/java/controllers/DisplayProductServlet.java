@@ -69,6 +69,16 @@ public class DisplayProductServlet extends HttpServlet {
             List<Product> prdList = new ArrayList<>();
             prdList = prodDao.getAllProducts();
             request.setAttribute("prdList", prdList);
+            int sumProduct = prdList.size();
+            int n = prodDao.numberProductPerPage;
+            int totalPages = sumProduct%n == 0 ? sumProduct/n :  sumProduct/n + 1;
+            request.setAttribute("totalPages", totalPages);
+            
+            String strPage = request.getParameter("page");
+            int page = strPage==null ? 1 : Integer.parseInt(strPage);
+            
+            prdList = prodDao.getProductsPaging(page);
+            request.setAttribute("prdList", prdList);
             
             request.getRequestDispatcher("productslist.jsp")
                     .forward(request, response);
@@ -88,7 +98,26 @@ public class DisplayProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            String strKw = request.getParameter("txtKw");
+            String strCatKw = request.getParameter("ddCat");
+
+            ProductDao prodDao = new ProductDao();
+            List<Product> prdList = new ArrayList<>();
+            prdList = prodDao.searchProducts(strKw, strCatKw);
+            request.setAttribute("prdList", prdList);
+
+            CategoryDao catDao = new CategoryDao();
+            List<Category> catList = new ArrayList<>();
+            catList=catDao.getAllCategories();
+            request.setAttribute("catList", catList);
+            
+            request.getRequestDispatcher("productslist.jsp")
+                    .forward(request, response);            
+        } catch (Exception e) {
+            System.out.println("");
+        }
+        
     }
 
     /** 

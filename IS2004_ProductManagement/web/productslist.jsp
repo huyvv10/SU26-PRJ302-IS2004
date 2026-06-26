@@ -14,7 +14,7 @@
     </head>
     <body>
     <center><h1>PRODUCT MANAGEMENT</h1></center>
-    <form action="diplayproduct" method="post">
+    <form action="displayproducts" method="post">
         <table border="0">
             <tr>
                 <td>Search name</td>
@@ -36,6 +36,12 @@
         </table>
     </form>    
     <br>
+    <!--Paging areas-->
+    <div style="text-align: center">
+        <c:forEach begin="${1}" end="${totalPages}" var="i">
+            <a href="displayproducts?page=${i}">${i}</a>
+        </c:forEach>
+    </div> <br />
     <table border="1">
         <thead>
             <tr>
@@ -57,7 +63,10 @@
                 <td>${p.price}</td>
                 <td>${p.importDate}</td>
                 <td>${p.catId}</td>
-                <td></td>
+                <td>
+                    <a href="edit?pid=${p.id}">Edit</a> |
+                    <a href="delete?pid=${p.id}">Delete</a>
+                </td>
             </tr>
             </c:forEach>
         </tbody>

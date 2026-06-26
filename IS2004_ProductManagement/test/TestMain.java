@@ -23,6 +23,19 @@ public class TestMain {
         for (Product p : prdList) {
             System.out.println(p.toString());
         }
-                
+        
+        System.out.println("----Test searching -----");
+        prdList = prdDao.searchProducts("HP", "C0005");
+        
+        for (Product p : prdList) {
+            System.out.println(p.toString());
+        }        
+        System.out.println("----Test paging -----");
+        prdList = prdDao.getProductsPaging(3);
+        
+        for (Product p : prdList) {
+            System.out.println(p.toString());
+        }        
+        
     }
 }
